@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>VK Музыка: музыка городов</title>
+<style>
+:root{--bg:#fff;--bg2:#f2f3f5;--tx:#000;--tx2:#818c99;--ac:#2688eb;--cd:#f2f3f5;--land:#d7dbe2;--page:#e8eaee;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#19191a;--bg2:#2c2d2e;--tx:#e1e3e6;--tx2:#909499;--ac:#4986cc;--cd:#2c2d2e;--land:#3a3b3d;--page:#0c0c0d}}
+:root[data-theme="dark"]{--bg:#19191a;--bg2:#2c2d2e;--tx:#e1e3e6;--tx2:#909499;--ac:#4986cc;--cd:#2c2d2e;--land:#3a3b3d;--page:#0c0c0d}
+*{box-sizing:border-box;margin:0}
+html,body{height:100%}
+body{background:var(--page);font-family:-apple-system,"SF Pro Text","Segoe UI",Roboto,Arial,sans-serif;color:var(--tx);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:12px}
+.phone{width:min(390px,100%);height:min(800px,calc(100vh - 70px));min-height:560px;background:var(--bg);border-radius:44px;border:8px solid #000;overflow:hidden;display:flex;flex-direction:column;position:relative}
+.top{display:flex;align-items:center;gap:14px;padding:14px 16px 6px;font-size:24px;font-weight:600}
+.top svg{width:22px;height:22px;stroke:var(--ac);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.top .sp{flex:1}
+.tabs{display:flex;gap:4px;padding:4px 12px 8px;overflow-x:auto;scrollbar-width:none}
+.tabs span{padding:8px 13px;border-radius:12px;color:var(--tx2);font-size:15px;white-space:nowrap}
+.tabs .on{background:var(--bg);color:var(--ac);box-shadow:0 0 0 1px var(--bg2),0 2px 8px #0002}
+.body{flex:1;overflow-y:auto;scrollbar-width:none}
+h1{font-size:22px;font-weight:700;padding:6px 16px 0}
+.sub{font-size:14px;color:var(--tx2);padding:2px 16px 0}
+.map{margin:6px 8px 0}
+.map svg{width:100%;display:block}
+.dot{cursor:pointer}
+.dot circle.c{fill:#ff2bf0;transition:r .2s}
+.dot.on circle.c{fill:#fff;stroke:#ff2bf0;stroke-width:2.5}
+.dot circle.p{fill:#ff2bf0;opacity:.35;transform-box:fill-box;transform-origin:center;animation:pl 2.4s ease-out infinite}
+.dot text{font-size:8px;fill:var(--tx);font-weight:600;pointer-events:none}
+@keyframes pl{to{transform:scale(3.2);opacity:0}}
+@media (prefers-reduced-motion:reduce){.dot circle.p{animation:none}}
+.chips{display:flex;gap:8px;overflow-x:auto;padding:8px 16px 12px;scrollbar-width:none}
+.chip{border:0;background:var(--bg2);color:var(--tx);font:inherit;font-size:14px;padding:8px 14px;border-radius:12px;white-space:nowrap;cursor:pointer}
+.chip.on{background:var(--ac);color:#fff}
+.hero{margin:0 16px;border-radius:20px;padding:18px;color:#fff;min-height:150px;position:relative;background:linear-gradient(135deg,#2a4bf0,#ff2bf0)}
+.hero .m{font-size:30px;font-weight:700;line-height:1}
+.hero .ml{font-size:14px;opacity:.9;margin-top:4px}
+.hero h2{font-size:22px;font-weight:700;margin-top:22px;padding-right:64px}
+.hero .g{font-size:14px;opacity:.9;margin-top:4px;padding-right:64px}
+.play{position:absolute;right:16px;bottom:16px;width:52px;height:52px;border-radius:50%;background:#fff;border:0;display:grid;place-items:center;cursor:pointer}
+.play svg{width:20px;height:20px;fill:#000;margin-left:3px}
+.sec{font-size:18px;font-weight:600;padding:18px 16px 6px}
+.row{display:flex;align-items:center;gap:12px;padding:6px 16px}
+.cv{width:48px;height:48px;border-radius:8px;flex:none}
+.row .t{flex:1;min-width:0}
+.row b{display:block;font-weight:400;font-size:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.row i{display:block;font-style:normal;font-size:14px;color:var(--tx2)}
+.row .tag{font-size:12px;color:var(--ac);background:var(--bg2);padding:3px 8px;border-radius:8px;white-space:nowrap}
+.add{margin:14px 16px 20px;display:flex;gap:8px}
+.add button{flex:1;border:0;border-radius:12px;padding:12px;font:inherit;font-size:15px;font-weight:500;background:var(--bg2);color:var(--tx);cursor:pointer}
+.add button.pr{background:var(--ac);color:#fff}
+.nav{display:flex;justify-content:space-around;padding:10px 0 16px;border-top:1px solid var(--bg2)}
+.nav svg{width:26px;height:26px;stroke:var(--tx2);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.toast{position:absolute;left:16px;right:16px;bottom:78px;background:var(--tx);color:var(--bg);padding:12px 14px;border-radius:12px;font-size:14px;opacity:0;transform:translateY(8px);transition:.25s;pointer-events:none}
+.toast.show{opacity:1;transform:none}
+.foot{font-size:12px;color:var(--tx2);display:flex;gap:12px;align-items:center}
+.foot button{border:0;background:var(--bg2);color:var(--tx);border-radius:10px;padding:6px 12px;font:inherit;font-size:12px;cursor:pointer}
+:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+.ov{position:fixed;inset:0;background:#0009;display:none;align-items:flex-end;justify-content:center;z-index:20}
+.ov.show{display:flex}
+.sh{width:min(560px,100%);max-height:88vh;background:var(--bg);color:var(--tx);border-radius:24px 24px 0 0;display:flex;flex-direction:column;padding-bottom:env(safe-area-inset-bottom,0px)}
+.sh header{display:flex;align-items:center;padding:16px 20px 8px}
+.sh header h3{flex:1;font-size:20px}
+.sh header button{border:0;background:var(--bg2);color:var(--tx);width:32px;height:32px;border-radius:50%;font-size:16px;cursor:pointer}
+.st{display:flex;gap:6px;padding:4px 16px 10px;overflow-x:auto;scrollbar-width:none}
+.sc{overflow-y:auto;padding:4px 20px 24px;font-size:15px;line-height:1.5}
+.sc p{margin:0 0 10px}
+.sc h4{font-size:15px;margin:14px 0 4px}
+.sc ul{padding-left:20px;margin:0 0 10px}
+.sc li{margin-bottom:4px}
+.about{background:var(--ac)!important;color:#fff!important}
+.gn{display:flex;align-items:center;gap:10px;padding:5px 16px;font-size:14px}
+.gn span{width:96px;color:var(--tx2)}
+.gn .bar{flex:1;height:7px;background:var(--bg2);border-radius:8px;overflow:hidden}
+.gn .bar i{display:block;height:100%;border-radius:8px;background:linear-gradient(90deg,#2a4bf0,#ff2bf0);transition:width .4s}
+.gn em{font-style:normal;width:36px;text-align:right;color:var(--tx2);font-size:13px}
+.add{flex-wrap:wrap}
+#sur{flex-basis:100%}
+.chips{position:relative}
+.eqw{margin:10px 16px 0;border-radius:20px;background:var(--bg2);padding:14px 12px 4px}
+.eqh{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:44px}
+.eqh b{display:block;font-size:20px;font-weight:700}
+.eqh small{font-size:13px;color:var(--tx2)}
+.swp{flex:none;width:44px;height:44px;border-radius:50%;background:var(--ac);border:0;display:grid;place-items:center;cursor:pointer}
+.swp svg{width:18px;height:18px;fill:#fff}
+.eq{display:flex;align-items:flex-end;gap:4px;height:170px;margin-top:10px}
+.eb{flex:1;min-width:0;height:100%;display:flex;align-items:flex-end;justify-content:center;background:none;border:0;padding:0;cursor:pointer}
+.eb i{display:block;position:relative;width:100%;max-width:22px;height:0;border-radius:11px 11px 3px 3px;background:linear-gradient(180deg,#2a4bf0,#ff2bf0);opacity:.45;transition:height .8s cubic-bezier(.2,.8,.2,1),opacity .2s}
+.eq.go .eb i{height:var(--h)}
+.eq:not(.done) .eb i{transition-delay:var(--d)}
+.eb.on i{opacity:1}
+.eb.on i::before{content:"";position:absolute;left:50%;top:6px;width:8px;height:8px;margin-left:-4px;border-radius:50%;background:#fff}
+.eqa{display:flex;justify-content:space-between;gap:8px;font-size:11px;color:var(--tx2);padding:8px 2px 10px}
+@media (prefers-reduced-motion:reduce){.eb i{transition:none!important}.ct.on .p{animation:none!important}}
+.ctl{display:flex;gap:8px;align-items:center}
+.swp.sm{width:36px;height:36px;background:var(--bg)}
+.swp.sm svg{width:16px;height:16px;fill:none;stroke:var(--tx);stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.swp:disabled{opacity:.35;cursor:default}
+.mp{width:100%;display:block;margin-top:6px}
+.mp .pd{fill:var(--land)}
+.mp .lnd{fill:url(#lg);stroke:var(--land);stroke-width:1.2;stroke-linejoin:round}
+.mp .dts{fill:url(#dp)}
+.mp .cl{font-size:9px;fill:var(--tx);paint-order:stroke;stroke:var(--bg2);stroke-width:3px;stroke-linejoin:round}
+.ct{cursor:pointer}
+.ct .c{fill:#ff2bf0;stroke:var(--bg2);stroke-width:1.5}
+.ct .p{fill:#ff2bf0;opacity:0}
+.ct.on .c{fill:#fff;stroke:#ff2bf0;stroke-width:2.5}
+.ct.on .cl{font-weight:700}
+.ct.on .p{opacity:.35;animation:pl 2.4s ease-out infinite;transform-box:fill-box;transform-origin:center}
+.sg{fill:none;stroke:var(--tx2);stroke-width:1.4;stroke-dasharray:2 4;stroke-linecap:round;opacity:.6}
+.sg.dn{stroke:#ff2bf0;stroke-dasharray:none;stroke-width:2.4;opacity:1}
+#mk{fill:#fff;stroke:#2a4bf0;stroke-width:2.5;pointer-events:none}
+@media (prefers-reduced-motion:reduce){.gn .bar i{transition:none}}
+</style>
+</head>
+<body>
+<div class="phone">
+ <div class="top"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg>Music<span class="sp"></span><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg><svg viewBox="0 0 24 24"><path d="M4 6h14M4 11h10M4 16h6"/><circle cx="17" cy="17" r="2.5"/></svg></div>
+ <div class="tabs"><span>General</span><span>My Music</span><span>Radio</span><span class="on">Города</span><span>Explore</span><span>Books</span></div>
+ <div class="body" id="body">
+  <h1>Музыка городов России</h1>
+  <p class="sub">Нажимай на города или листай маршрут</p>
+  <div class="eqw"><div class="eqh"><div><b id="eqn"></b><small id="eqm"></small></div><div class="ctl"><button class="swp sm" id="pv" aria-label="Предыдущая остановка"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button><button class="swp" id="sw" aria-label="Проиграть маршрут"><svg viewBox="0 0 24 24"><path d="M6 4l14 8-14 8z"/></svg></button><button class="swp sm" id="nx" aria-label="Следующая остановка"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button></div></div><svg class="mp" viewBox="14 12 346 196" role="group" aria-label="Музыкальный маршрут по России"><defs><pattern id="dp" width="6" height="6" patternUnits="userSpaceOnUse"><circle class="pd" cx="3" cy="3" r="1.2"/></pattern><linearGradient id="lg" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#2a4bf0" stop-opacity=".22"/><stop offset="1" stop-color="#ff2bf0" stop-opacity=".22"/></linearGradient><polygon id="ru" points="22,100 26,78 44,58 58,34 92,22 120,34 150,26 190,20 230,28 268,18 310,26 346,40 352,62 336,74 344,96 330,128 316,120 306,140 292,164 276,170 270,150 252,142 226,148 196,156 160,160 130,156 104,168 84,176 60,182 44,196 30,200 24,184 30,164 22,140"/></defs><use href="#ru" class="lnd"/><use href="#ru" class="dts"/><g id="rt"></g><g id="ct"></g><circle id="mk" r="4.5" cx="-10" cy="-10"/></svg><div class="eqa"><span id="stp"></span><span>Маршрут идёт с запада на восток</span></div></div>
+  <div class="chips" id="chips"></div>
+  <div class="hero" id="hero"></div>
+  <div class="sec">Музыкальный характер</div>
+  <div id="gen"></div>
+  <div class="sec">Топ города сейчас</div>
+  <div id="tracks"></div>
+  <div class="sec">Только здесь</div>
+  <div id="local"></div>
+  <div class="add"><button class="pr" id="addpl">Добавить подборку</button><button id="mix">Смешать с моим вкусом</button><button id="sur">Удиви меня: случайный город</button></div>
+ </div>
+ <div class="nav"><svg viewBox="0 0 24 24"><path d="M4 11l8-7 8 7v9H4z"/></svg><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg><svg viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z"/></svg><svg viewBox="0 0 24 24"><circle cx="12" cy="14" r="5"/><path d="M9 5l1 4M15 5l-1 4"/></svg><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg></div>
+ <div class="toast" id="toast"></div>
+</div>
+<div class="foot"><span>Данные выдуманы</span><button class="about" id="ab">О доработке</button><button id="th">Тема</button></div>
+<div class="ov" id="ov"><div class="sh" role="dialog" aria-label="О доработке"><header><h3>Музыка городов: о доработке</h3><button id="cl" aria-label="Закрыть">✕</button></header><div class="st" id="st"></div><div class="sc" id="sc"></div></div></div>
+<script>
+var C=[
+{n:"Москва",x:35,y:111,m:41,g:"Городской поп и хип-хоп",t:[["Ночной маршрут","Лиза Орлова"],["Серый шум","Парк-34"],["Кольцо","Метель"]],l:[["Двор на Пресне","Фонари"],["Третий этаж","Саша Н."]]},
+{n:"Санкт-Петербург",x:28,y:96,m:63,g:"Инди и постпанк",t:[["Разводной мост","Невская тень"],["Белая ночь","Тихий залив"],["Дождь по расписанию","Нева FM"]],l:[["Подъезд 7","Крыши"],["Васька","Лёд и Ко"]]},
+{n:"Саратов",x:57,y:124,m:58,g:"Рок и русский рэп",t:[["Волга под мостом","Левый берег"],["Корабли","Степь"],["Крепкий чай","Двое с набережной"]],l:[["Проспект Кирова","Пятый этаж"],["Лысая гора","Сквозняк"]]},
+{n:"Казань",x:64,y:110,m:47,g:"Татарский поп и электроника",t:[["Кремлёвский рассвет","Алсу К."],["Булак","Дельта-9"],["Кабан","Нур"]],l:[["Эйфория","Рамиль"],["Старо-Татарская","Камыш"]]},
+{n:"Краснодар",x:40,y:140,m:36,g:"Танцевальная музыка",t:[["Южный ветер","Рамка"],["Магнолия","DJ Кубань"],["Чёрное море","Лето в кармане"]],l:[["Красная, 122","Бархат"],["Вечер у фонтана","Айва"]]},
+{n:"Екатеринбург",x:92,y:108,m:52,g:"Рок-н-ролл и техно",t:[["Плотинка","Уральский шум"],["Железо","Рельсы"],["Квартал","Алёна Г."]],l:[["Высоцкий","Контур"],["Ночь на Урале","Мост"]]},
+{n:"Новосибирск",x:146,y:113,m:29,g:"Электроника и панк",t:[["Академгородок","Сигма"],["Обь","Лёд-3"],["Метромост","Вася и Ко"]],l:[["Красный проспект","Нейтрон"],["Зима длинная","Шорох"]]},
+{n:"Красноярск",x:170,y:110,m:44,g:"Фолк и альтернатива",t:[["Столбы","Енисей-Рок"],["Тайга","Лыжня"],["Остров Татышев","Мира"]],l:[["Дивногорск","Сосны"],["Утро на Енисее","Туман"]]},
+{n:"Якутск",x:258,y:91,m:18,g:"Этно и хип-хоп",t:[["Лена","Айыы"],["Холод","Север 62"],["Сэргэ","Дьулус"]],l:[["Полюс холода","Мерзлота"],["Танец ысыах","Кыым"]]},
+{n:"Владивосток",x:264,y:140,m:39,g:"Сёрф-рок и синтипоп",t:[["Золотой мост","Тихий океан"],["Русский остров","Бухта"],["Туман над бухтой","Мыс"]],l:[["Светланская","Волна"],["Седанка","Кальмар"]]}
+];
+var G=["#2a4bf0,#ff2bf0","#00b3a4,#2a4bf0","#ff7a3d,#ff2bf0","#7a5cff,#2688eb","#26c281,#00b3a4"];
+C.push({n:"Нижний Новгород",x:50,y:103,m:44,g:"Инди-поп и альтернатива",t:[["Стрелка","Пятый берег"],["Тихий свет","Смена"],["Откос","Вверх"]],l:[["Рождественская","Ока"],["Канатка","Лето"]]},{n:"Иркутск",x:198,y:122,m:43,g:"Инди и фолк-поп",t:[["Байкал","Тихая вода"],["Берег","Луна"],["Синие горы","Домой"]],l:[["Ангара","Омуль"],["130-й квартал","Снежок"]]});
+var GN={"Москва":[["Поп",35],["Хип-хоп",27],["Рок",18],["Электроника",12],["Другое",8]],"Санкт-Петербург":[["Инди",32],["Рок",25],["Электроника",19],["Поп",14],["Другое",10]],"Саратов":[["Поп",29],["Рок",24],["Хип-хоп",21],["Электроника",14],["Другое",12]],"Казань":[["Хип-хоп",31],["Поп",28],["Электроника",17],["Рок",13],["Другое",11]],"Краснодар":[["Поп",34],["Электроника",26],["Хип-хоп",16],["Инди",14],["Другое",10]],"Екатеринбург":[["Рок",29],["Электроника",25],["Инди",21],["Хип-хоп",15],["Другое",10]],"Новосибирск":[["Электроника",30],["Хип-хоп",24],["Поп",20],["Рок",16],["Другое",10]],"Красноярск":[["Рок",31],["Фолк",23],["Инди",18],["Поп",16],["Другое",12]],"Якутск":[["Этно",30],["Хип-хоп",26],["Поп",20],["Рок",14],["Другое",10]],"Владивосток":[["Поп",30],["K-pop",23],["Электроника",19],["Хип-хоп",16],["Другое",12]],"Нижний Новгород":[["Инди",30],["Рок",26],["Поп",20],["Хип-хоп",14],["Другое",10]],"Иркутск":[["Инди",28],["Фолк",22],["Поп",20],["Рок",17],["Другое",13]]};
+var sel=0,$=function(i){return document.getElementById(i)},NS="http://www.w3.org/2000/svg";
+var R=[["Санкт-Петербург",46,82,53,80,"start","СПб"],["Москва",58,114,52,120,"end","Москва"],["Краснодар",50,176,57,180,"start","Краснодар"],["Саратов",86,140,93,143,"start","Саратов"],["Нижний Новгород",80,106,80,97,"middle","Н. Новгород"],["Казань",104,114,111,110,"start","Казань"],["Екатеринбург",146,106,146,119,"middle","Екатеринбург"],["Новосибирск",196,116,196,129,"middle","Новосибирск"],["Красноярск",226,104,226,95,"middle","Красноярск"],["Иркутск",246,134,253,137,"start","Иркутск"],["Якутск",290,76,297,79,"start","Якутск"],["Владивосток",286,158,279,161,"end","Владивосток"]];
+var RG={"Санкт-Петербург":"Северо-Запад","Москва":"Центр","Краснодар":"Юг","Саратов":"Поволжье","Нижний Новгород":"Поволжье","Казань":"Поволжье","Екатеринбург":"Урал","Новосибирск":"Сибирь","Красноярск":"Сибирь","Иркутск":"Сибирь","Якутск":"Дальний Восток","Владивосток":"Дальний Восток"};
+C=R.map(function(r){var c=C.filter(function(c){return c.n==r[0]})[0];c.x=r[1];c.y=r[2];c.r=r;return c});
+var dots=[],sw=null,PL='<svg viewBox="0 0 24 24"><path d="M6 4l14 8-14 8z"/></svg>',PA='<svg viewBox="0 0 24 24"><path d="M7 4h4v16H7zM13 4h4v16h-4z"/></svg>';
+var P=C.map(function(c){return[c.x,c.y]}),segs=[],mk=$("mk"),cur=-1,raf=0;
+function el(t,a){var e=document.createElementNS(NS,t);for(var q in a)e.setAttribute(q,a[q]);return e}
+for(var j=0;j<P.length-1;j++){var p0=P[Math.max(j-1,0)],p1=P[j],p2=P[j+1],p3=P[Math.min(j+2,P.length-1)],s=el("path",{"class":"sg",d:"M"+p1+" C"+[p1[0]+(p2[0]-p0[0])/6,p1[1]+(p2[1]-p0[1])/6]+" "+[p2[0]-(p3[0]-p1[0])/6,p2[1]-(p3[1]-p1[1])/6]+" "+p2});$("rt").appendChild(s);segs.push(s)}
+C.forEach(function(c,i){var r=c.r,g=el("g",{"class":"ct",tabindex:"0",role:"button","aria-label":c.n+", остановка "+(i+1)+", "+RG[c.n]});
+g.appendChild(el("circle",{"class":"p",cx:c.x,cy:c.y,r:3.5}));g.appendChild(el("circle",{"class":"c",cx:c.x,cy:c.y,r:3.8}));g.appendChild(el("circle",{cx:c.x,cy:c.y,r:11,fill:"transparent"}));
+var t=el("text",{"class":"cl",x:r[3],y:r[4],"text-anchor":r[5]});t.textContent=r[6];g.appendChild(t);
+g.onclick=function(){pick(i)};g.onkeydown=function(e){if(e.key=="Enter"||e.key==" "){e.preventDefault();pick(i)}};$("ct").appendChild(g);dots.push(g)});
+function mv(i){var x=C[i].x,y=C[i].y;cancelAnimationFrame(raf);
+if(cur<0||matchMedia("(prefers-reduced-motion:reduce)").matches||Math.abs(i-cur)!=1){mk.setAttribute("cx",x);mk.setAttribute("cy",y);cur=i;return}
+var s=segs[Math.min(i,cur)],L=s.getTotalLength(),fw=i>cur,t0=performance.now();cur=i;
+(function f(t){var u=Math.min((t-t0)/900,1);u=u<.5?2*u*u:1-Math.pow(-2*u+2,2)/2;var p=s.getPointAtLength(L*(fw?u:1-u));mk.setAttribute("cx",p.x);mk.setAttribute("cy",p.y);if(u<1)raf=requestAnimationFrame(f)})(t0)}
+function stop(){if(sw){clearInterval(sw);sw=null;$("sw").innerHTML=PL}}
+$("sw").onclick=function(){if(sw){stop();return}if(sel>=C.length-1)pick(0,1);$("sw").innerHTML=PA;sw=setInterval(function(){if(sel>=C.length-1){stop();return}pick(sel+1,1)},1800)};
+$("pv").onclick=function(){pick(sel-1)};$("nx").onclick=function(){pick(sel+1)};
+C.forEach(function(c,i){var b=document.createElement("button");b.className="chip";b.textContent=c.n;b.onclick=function(){pick(i)};$("chips").appendChild(b)});
+function rows(a,tag){return a.map(function(t,k){return '<div class="row"><div class="cv" style="background:linear-gradient(135deg,'+G[(k+tag)%5]+')"></div><div class="t"><b>'+t[0]+'</b><i>'+t[1]+'</i></div>'+(tag?'<span class="tag">из города</span>':'')+'</div>'}).join("")}
+function pick(i,a){if(!a)stop();sel=i;var c=C[i];
+dots.forEach(function(d,k){d.classList.toggle("on",k==i)});$("eqn").textContent=c.n;$("eqm").textContent=RG[c.n]+" · "+c.m+"% вашего вкуса";$("stp").textContent="Остановка "+(i+1)+" из "+C.length;segs.forEach(function(s,j){s.classList.toggle("dn",j<i)});$("pv").disabled=i==0;$("nx").disabled=i==C.length-1;mv(i);
+[].forEach.call($("chips").children,function(b,k){b.classList.toggle("on",k==i)});
+var ch=$("chips").children[i];$("chips").scrollTo({left:ch.offsetLeft-80,behavior:"smooth"});
+$("hero").innerHTML='<div class="m">'+c.m+'%</div><div class="ml">совпадает с твоим вкусом</div><h2>Что слушают в городе: '+c.n+'</h2><div class="g">'+c.g+'</div><button class="play" aria-label="Слушать"><svg viewBox="0 0 24 24"><path d="M6 4l14 8-14 8z"/></svg></button>';
+$("hero").querySelector(".play").onclick=function(){say("Играет подборка: "+c.n)};
+$("hero").style.background="linear-gradient(135deg,"+G[i%5]+")";
+$("gen").innerHTML=GN[c.n].map(function(a){return '<div class="gn"><span>'+a[0]+'</span><div class="bar"><i style="width:'+a[1]+'%"></i></div><em>'+a[1]+'%</em></div>'}).join("");
+$("tracks").innerHTML=rows(c.t,0);$("local").innerHTML=rows(c.l,2);}
+function say(s){var t=$("toast");t.textContent=s;t.classList.add("show");clearTimeout(say.h);say.h=setTimeout(function(){t.classList.remove("show")},1800)}
+$("addpl").onclick=function(){say("Подборка «"+C[sel].n+"» добавлена в Мою музыку")};
+$("mix").onclick=function(){say("Собираем микс: "+C[sel].m+"% твоего вкуса + "+C[sel].n)};
+$("th").onclick=function(){var r=document.documentElement,d=r.getAttribute("data-theme")||(matchMedia("(prefers-color-scheme:dark)").matches?"dark":"light");r.setAttribute("data-theme",d=="dark"?"light":"dark")};
+var A=[
+["Проблема","<p>Рекомендации VK Музыки строятся вокруг личного вкуса, и человек остаётся в своём «пузыре». Блок «Listen to others» показывает незнакомых людей, но без привязки к месту, поэтому поводов открыть новое мало.</p><p>При этом у приложения есть то, что даёт локальный контекст: аудитория по всей стране и региональные радиостанции.</p>"],
+["Решение","<p>Новая вкладка «Города» со стилизованной картой России и музыкальным маршрутом через 12 городов: можно нажимать на города или переключать остановки. Тап по городу открывает его экран:</p><ul><li>процент совпадения с твоим вкусом (развитие «97% matches your taste» с главной);</li><li>топ-треки города и раздел «Только здесь» с локальными артистами;</li><li>«Добавить подборку» в Мою музыку;</li><li>«Смешать с моим вкусом»: микс из твоей музыки и музыки города.</li></ul><p>Карта не витрина, а вход в прослушивание: после просмотра всегда есть действие.</p>"],
+["Метрики","<h4>Гипотеза</h4><p>Локальный повод попробовать новое увеличит долю прослушиваний вне привычных жанров и время в приложении.</p><h4>Основная</h4><ul><li>доля пользователей, добавивших подборку или трек из города.</li></ul><h4>Дополнительные</h4><ul><li>разнообразие жанров в истории прослушиваний;</li><li>CTR вкладки «Города» и переход в воспроизведение;</li><li>длительность сессии;</li><li>шеры города в сторис.</li></ul><h4>Защитные</h4><ul><li>доля скипов в первые 30 секунд не растёт;</li><li>D30 retention не падает.</li></ul><h4>Проверка</h4><p>A/B-тест на части аудитории, около двух недель.</p>"],
+["Допущения","<ul><li>Все треки, артисты и проценты выдуманы. В продукте данные считались бы по реальным прослушиваниям.</li><li>Приватность: город показывается только при достаточном числе слушателей (порог задаёт команда данных), без отдельных людей.</li><li>Малые города могут давать шумные данные, поэтому начать лучше с крупных.</li><li>Шрифт и иконки близкие аналоги, оригинальные недоступны.</li><li>Карта стилизованная, не картографически точная, маршрут условный.</li><li>Время сборки: около 2 часов, включая анализ разных сервисов и выбор идеи для VK Музыки.</li></ul>"]
+];
+A.forEach(function(a,i){var b=document.createElement("button");b.className="chip";b.textContent=a[0];b.onclick=function(){tab(i)};$("st").appendChild(b)});
+function tab(i){[].forEach.call($("st").children,function(b,k){b.classList.toggle("on",k==i)});$("sc").innerHTML=A[i][1];$("sc").scrollTop=0}
+$("ab").onclick=function(){tab(0);$("ov").classList.add("show")};
+$("cl").onclick=function(){$("ov").classList.remove("show")};
+$("ov").onclick=function(e){if(e.target==this)this.classList.remove("show")};
+document.onkeydown=function(e){if(e.key=="Escape")$("ov").classList.remove("show")};
+$("sur").onclick=function(){var n=Math.floor(Math.random()*C.length);if(n==sel)n=(n+1)%C.length;pick(n);say("Новый город: "+C[n].n);$("body").scrollTo({top:0,behavior:"smooth"})};
+pick(0);
+</script>
+</body>
+</html>
